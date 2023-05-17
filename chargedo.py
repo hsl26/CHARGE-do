@@ -12,10 +12,11 @@ params['serviceKey'] ="3RJiQ2qjq2JIZVrCFXK1dKOqOeQqjq21YEN/aO7D1o9wr4D/mcWuAPQQ5
 params['page'] = 1   # (optional) default 1
 params['perPage'] = 12   # (optional) default 10
 params['returnType'] = 'JSON' 
-params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120"
+# params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
+params['cond[addr::LIKE]'] = "서울특별시 마포구" 
 
 res = requests.get(url, params=params)
-# print(res.url) 
+print(res.url) 
 # print(res.text)
 
 # jsonData = res.json()
@@ -91,10 +92,22 @@ final_list = list(map(list, zip(*mylist)))
 con = sqlite3.connect('CHARGE_do/chargedo.db', isolation_level=None)
 cur = con.cursor()
 
+
+con.execute("DELETE FROM chargeDO")
+            
+# // 테이블에 모든 데이터를 삭제한다.
+# DELETE FROM {TABLE_NAME};
+
+# // 테이블 seq 값을 0으로 초기화한다.
+# UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = '{TABLE_NAME}';
+
+con.commit()
+
 cur.execute("CREATE TABLE IF NOT EXISTS chargeDO(id INTEGER PRIMARY KEY, csId INTEGER, csNm TEXT, addr TEXT, lat REAL, longi REAL, cpId INTEGER, cpNm TEXT, chargeTp TEXT, cpTp TEXT, statUpdatetime TEXT, cpStat TEXT)")
 
 cur.executemany('''INSERT INTO chargeDO(csId, csNm, addr, lat, longi, cpId, cpNm, chargeTp, cpTp, statUpdatetime, cpStat) VALUES (?,?,?,?,?,?,?,?,?,?,?)''', final_list)
 
+con.commit()
 
 '''
 url = "http://openapi.kepco.co.kr/service/EvInfoServiceV2/getEvSearchList" 
