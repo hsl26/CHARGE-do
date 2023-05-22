@@ -1,9 +1,7 @@
 import json
 import requests
 import sqlite3
-import datetime
 
-now = datetime.datetime.now()
 url = "https://api.odcloud.kr/api/EvInfoServiceV2/v1/getEvSearchList" 
 params = {} # dictionary 자료형
 params['serviceKey'] ="3RJiQ2qjq2JIZVrCFXK1dKOqOeQqjq21YEN/aO7D1o9wr4D/mcWuAPQQ57HV/VZMxZodnng1Su5jDJCcbVMtvg=="
