@@ -19,8 +19,8 @@ def charge():
     params['page'] = 1   # (optional) default 1
     params['perPage'] = 12   # (optional) default 10
     params['returnType'] = 'JSON' 
-    #params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
-    params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동 861-1" 
+    params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
+    #params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동 861-1" 
 
     res = requests.get(url, params=params)
     print(res.url) 
