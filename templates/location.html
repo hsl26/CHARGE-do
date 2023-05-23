@@ -11,14 +11,18 @@
 	<body>
 		<h1>geolocation에서의 오류 처리</h1>
 
-		<button onclick="findLocation(); get_charge_data()">현재 위치의 위도와 경도</button>
+		<button onclick="findLocation()">현재 위치의 위도와 경도</button>
 		<p id="myLocation"></p>
 
 		<div id="map" style="width:100vw; height:500px;"></div>
 		<div id="clickLatlng"></div>
 
+		<button onclick="getChargeData()">충전소 목록</button>
+		<p id="chargeList"></p>
+
 		<script>
 			var loc = document.getElementById("myLocation");
+			var list = document.getElementById("chargeList");
 
 			var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 			var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -37,6 +41,9 @@
 				}
 			}
 
+			var myLatitude = 37.60992959003136; // 초기값 국민대 위도
+			var myLongitude = 126.99738378955175; // 초기값 국민대 경도
+
 			function showYourLocation(position) {
 				loc.innerHTML = "현재 사용자는 위도 " + position.coords.latitude + ", 경도 " + position.coords.longitude + "에 위치하고 있습니다." ;	
 				
@@ -53,6 +60,10 @@
 				// 기존에 마커가 있다면 제거
 				marker.setMap(null);
 				marker.setMap(map);
+
+				myLatitude = position.coords.latitude;
+				myLongitude = position.coords.longitude;
+				console.log(myLatitude, myLongitude);
 			}
 
 			function showErrorMsg(error) {
@@ -72,14 +83,48 @@
 				}
 			}
 
-			function get_charge_data() {
+			var listLat = []; // DB 위도 리스트
+			var listLongi = []; // DB 경도 리스트
+
+			function getChargeData() {
 				$.getJSON('/charge', function(data) { // DB 데이터 불러오기
-					console.log(data.lat[0]);
-					console.log(data.longi[0]);
+					console.log(data.csId);
+					console.log(data.lat);
+					listLat = data.lat;
+					listLongi = data.longi;
+
+					//console.log("getJSON안 lat 리스트: ",listLat);
+					//console.log("getJSON안 longi 리스트: ",listLongi);
+					//console.log(Object.keys(data.lat).lenght);
+					
+					distance(listLat, listLongi);
 				});
 			}
-			// setInterval(get_charge_data); // 1000마다 불러옴. 
+
+			function distance(lat, longi){
+				var distance = 0;
+				for (var step=0; step<2; step++) { // 2 대신 배열 길이 넣어야함......
+					function deg2rad(deg) {
+						return deg * (Math.PI/180)
+					}
+
+					var R = 6371; // Radius of the earth in km
+
+					var lat1 = myLatitude;
+					var lat2 = lat[step];
+					var lng1 = myLongitude;
+					var lng2 = longi[step];
+
+					var dLat = deg2rad(lat2-lat1);  // deg2rad below
+					var dLon = deg2rad(lng2-lng1);
+					var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+					var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+					var d = R * c; // Distance in km
+
+					distance = Math.sqrt( Math.pow(Math.abs(lat[step] - myLatitude), 2) + Math.pow(Math.abs(longi[step] - myLongitude), 2) );
+					list.innerHTML = "현재 사용자 위치와 충전소의 작선 거리는 " + d + "km 입니다." ;	
+				}
+			} 
 		</script> 
 	</body>
-
 </html>
