@@ -19,7 +19,7 @@ def charge():
     params['page'] = 1   # (optional) default 1
     params['perPage'] = 12   # (optional) default 10
     params['returnType'] = 'JSON' 
-    # params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
+    #params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
     params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동 861-1" 
 
     res = requests.get(url, params=params)
@@ -118,9 +118,9 @@ def charge():
         # print(item)
 
     if rows:
-        return jsonify({'lat': lat, 'longi': longi}) # 값 있으면 해당 값 전달
+        return jsonify({'csId': csId, 'lat': lat, 'longi': longi}) # 값 있으면 해당 값 전달
     else:
-        return jsonify({'lat': 37.60992959003136, 'longi': 126.99738378955175}) # 값 없으면 (0, 0) 전달
+        return jsonify({'csId': 3069,'lat': 37.60992959003136, 'longi': 126.99738378955175}) # 값 없으면 (37.60992959003136, 126.99738378955175) 전달
 
 
 if __name__ == '__main__':
