@@ -7,8 +7,20 @@ import sqlite3
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return render_template('location.html')
+def main():
+    return render_template('main.html')
+
+@app.route('/list')
+def list():
+    return render_template('list.html')
+
+@app.route('/fee')
+def fee():
+    return render_template('fee.html')
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 @app.route('/charge')
 def charge():

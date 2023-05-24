@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FEE</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    </head>
+
+    <body>
+        <canvas class="chart" id="lowPressure"></canvas>
+        <canvas class="chart" id="highPressure"></canvas>
+        <script>
+            const ctl = document.getElementById('lowPressure');
+            const lowPressure = new Chart(ctl, {
+                    type: 'bar',
+                    data: {
+                        labels: ['여름철', '봄·가을철', '겨울철'],
+                        datasets: [
+                            {
+                                label: '경부하',
+                                data: [84.3, 85.4, 107.4],
+                            },
+                            {
+                                label: '중간부하',
+                                data: [172.0, 97.2, 154.9],
+                            },
+                            {
+                                label: '최대부하',
+                                data: [259.2, 102.1, 217.5],
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                            stacked: true,
+                            },
+                            y: {
+                            stacked: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: '저압 충전 요금, 기본 요금 2,390 원/kW'
+                            }
+                        },
+                        animation: {
+                            duration: 0, 
+                        },
+                    },
+                });
+            
+
+            const cth = document.getElementById('highPressure');
+            const highPressure = new Chart(cth, {
+                    type: 'bar',
+                    data: {
+                        labels: ['여름철', '봄·가을철', '겨울철'],
+                        datasets: [
+                            {
+                                label: '경부하',
+                                data: [79.2, 80.2, 96.6],
+                            },
+                            {
+                                label: '중간부하',
+                                data: [137.4, 91.0, 127.7],
+                            },
+                            {
+                                label: '최대부하',
+                                data: [190.4, 94.9, 165.5],
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                            stacked: true,
+                            },
+                            y: {
+                            stacked: true
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: '고압 충전 요금, 기본 요금 2,390 원/kW'
+                            }
+                        },
+                        animation: {
+                            duration: 0, 
+                        },
+                    },
+                });
+        </script>
+    </body>
+</html>
+
+<style>
+    body{
+        margin: 0;
+        width: 500; /* 전체 너비 */
+    }
+
+    .chart {
+        height: 250px;
+        width: 250px;
+    }
+
+</style>
