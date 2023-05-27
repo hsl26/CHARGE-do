@@ -16,7 +16,6 @@ def details():
 
 @app.route('/charge')
 def charge():
-    # now = datetime.datetime.now()
     url = "https://api.odcloud.kr/api/EvInfoServiceV2/v1/getEvSearchList" 
     params = {} # dictionary 자료형
     params['serviceKey'] ="3RJiQ2qjq2JIZVrCFXK1dKOqOeQqjq21YEN/aO7D1o9wr4D/mcWuAPQQ57HV/VZMxZodnng1Su5jDJCcbVMtvg=="
@@ -101,7 +100,7 @@ def charge():
     final_list = list(map(list, zip(*mylist)))
     # print(final_list)
 
-    con = sqlite3.connect('CHARGE_do/chargedo.db', isolation_level=None)
+    con = sqlite3.connect('chargedo.db', isolation_level=None)
     cur = con.cursor()
 
     cur.execute("CREATE TABLE IF NOT EXISTS chargeDO(id INTEGER PRIMARY KEY, csId INTEGER, csNm TEXT, addr TEXT, lat REAL, longi REAL, cpId INTEGER, cpNm TEXT, chargeTp TEXT, cpTp TEXT, statUpdatetime TEXT, cpStat TEXT)")
