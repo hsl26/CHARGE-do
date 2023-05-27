@@ -120,9 +120,9 @@ def charge():
     
     # for item in rows:
         # print(item)
-
+    
     if rows:
-        return jsonify({'csId': csId, 'lat': lat, 'longi': longi}) # 값 있으면 해당 값 전달
+        return jsonify({'csId': csId, 'csNm': csNm, 'addr': addr, 'lat': lat, 'longi': longi, 'cpId': cpId, 'chargeTp': chargeTp, 'cpTp': cpTp, 'statUpdatetime': statUpdatetime, 'cpStat': cpStat}) # 값 있으면 해당 값 전달
     else:
         return jsonify({'csId': 3069,'lat': 37.60992959003136, 'longi': 126.99738378955175}) # 값 없으면 (37.60992959003136, 126.99738378955175) 전달
 
