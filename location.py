@@ -10,17 +10,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/list')
-def list():
-    return render_template('list.html')
-
-@app.route('/fee')
-def fee():
-    return render_template('fee.html')
-
-@app.route('/map')
-def map():
-    return render_template('map.html')
+@app.route('/details')
+def details():
+    return render_template('details.html')
 
 @app.route('/charge')
 def charge():
