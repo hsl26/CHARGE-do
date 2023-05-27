@@ -20,7 +20,7 @@
 				<!-- Intro -->
 					<section class="intro">
 						<header>
-							<h1>충전소 명칭</h1> <!-- csNm: 충전소 명칭 -->
+							<h1 id='csNm'></h1> <!-- csNm: 충전소 명칭 -->
 							<p>A free responsive site template designed </p> <!-- addr: 충전소 주소(샘플 : 전라남도 나주시 전력로 55) -->
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
@@ -33,7 +33,7 @@
 					<section id="first">
 						<div class="content"> 
 							<p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p>
-
+							<button onclick="getChargeData()">충전소 목록</button>
 							<div class="table-wrapper">
 								<table>
 									<thead>
@@ -43,29 +43,48 @@
 											<th>충전기 상태</th> <!-- cpStat: 충전기 상태( 0: 상태확인불가, 1: 충전가능, 2: 충전중, 3:고장/점검, 4:통신장애, 5:통신미연결,9:충전예약) -->
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td>완속</td>
-											<td>DC콤보</td>
-											<td>상태확인불가</td>
-										</tr>
-										<tr>
-											<td>급속</td>
-											<td>DC콤보</td>
-											<td>충전가능</td>
-										</tr>
-										<tr>
-											<td>급속</td>
-											<td>DC차데모+DC콤보</td>
-											<td>충전중</td>
-										</tr>
+									<tbody id="chargeList">
 									</tbody>
 									<tfoot></tfoot>
 								</table>
 							</div>
-
 							
-							<p>정보 업데이트 시각: <strong>2022-06-28</strong></p>
+							<p id="cpStat"></p>
+
+							<script>
+								function getChargeData() {
+
+									var name = document.getElementById("csNm");
+									var text = document.getElementById("cpStat");
+
+									$.getJSON('/charge', function(data) { // DB 데이터 불러오기
+										
+										// csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
+					
+										console.log("csNm: 충전소 명칭: ", data.csNm);
+										console.log("statUpdatetime: ", data.statUpdatetime);
+
+										name.innerHTML = data.csNm[0];
+
+										details(data.chargeTp, data.cpTp, data.cpStat);
+
+										text.innerHTML = "정보 업데이트 시각: " + `<strong>` + data.statUpdatetime[0] + `</strong>`;
+
+									});
+								}
+
+								function details(chargeTp, cpTp, cpStat){
+									for (var step=0; step<12; step++) { // 12 대신 배열 길이 넣어야함......
+
+										var listArea = document.getElementById("chargeList");
+										var newList = document.createElement('tr');
+
+										newList.innerHTML = `<td>` + chargeTp[step] + `</td><td>` + cpTp[step] + `</td><td>` + cpStat[step] + `</td>`;
+					
+										listArea.appendChild(newList);
+									}
+								}
+							</script>
 						</div>
 					</section>
 
