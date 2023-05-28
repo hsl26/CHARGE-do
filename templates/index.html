@@ -52,7 +52,7 @@
 							<p>충전소를 누르면 <strong>상세정보 페이지</strong>로 이동합니다.</p>
 
 							<ul class="feature-icons" id="chargeList">
-								<li class="icon solid fa-bolt">Consequat tempus</li>
+								<li class="icon solid fa-bolt"><a href="details?273">Consequat tempus</a></li>
 								<li class="icon solid fa-bolt">Consequat tempus</li>
 							</ul>
 							<p>Vehicula ultrices sed ultricies condimentum. Magna sed etiam consequat, et lorem adipiscing sed nulla. Volutpat nisl et tempus et dolor libero, feugiat magna tempus, sed et lorem adipiscing.</p>
@@ -76,7 +76,7 @@
 											var listArea = document.getElementById("chargeList");
 											var newList = document.createElement('li');
 
-											newList.innerHTML =  csNm[step] ;
+											newList.innerHTML = `<a href="details?`+ csId[step]+`">` + csNm[step] + `</a>` ;
 						
 											listArea.appendChild(newList);
 										}
