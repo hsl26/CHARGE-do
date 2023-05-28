@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<!--
+	Paradigm Shift by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CHARGE_do</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Intro -->
+					<section class="intro">
+						<header>
+							<h1 id='csNm'></h1> <!-- csNm: 충전소 명칭 -->
+							<p>A free responsive site template designed </p> <!-- addr: 충전소 주소(샘플 : 전라남도 나주시 전력로 55) -->
+							<ul class="actions">
+								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
+							</ul>
+						</header>
+					</section>
+					
+
+				<!-- Section -->
+					<section id="first">
+						<div class="content"> 
+							<!-- <p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p> --> 
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>충전기 타입</th> <!-- chargeTp: 충전기타입(1:완속, 2: 급속) -->
+											<th>충전 방식</th> <!-- cpTp: 충전방식(1:B타입(5핀), 2: C타입(5핀), 3:BC타입(5핀),4: BC타입(7핀),5: DC차 데모, 6:AC 3상, 7: DC콤보,8: DC차데모+DC콤보. 9:DC차데모+AC3상, 10: DC차데모+DC콤보, AC3상) -->
+											<th>충전기 상태</th> <!-- cpStat: 충전기 상태( 0: 상태확인불가, 1: 충전가능, 2: 충전중, 3:고장/점검, 4:통신장애, 5:통신미연결,9:충전예약) -->
+										</tr>
+									</thead>
+									<tbody id="chargeList">
+									</tbody>
+									<tfoot></tfoot>
+								</table>
+							</div>
+							
+							<p id="cpStat"></p>
+
+							<script>
+								window.onload = function () {
+
+									var name = document.getElementById("csNm");
+									var text = document.getElementById("cpStat");
+
+									$.getJSON('/charge', function(data) { // DB 데이터 불러오기
+										
+										// csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
+					
+										console.log("csNm: 충전소 명칭: ", data.csNm);
+										console.log("statUpdatetime: ", data.statUpdatetime);
+
+										name.innerHTML = data.csNm[0];
+
+										details(data.chargeTp, data.cpTp, data.cpStat);
+
+										text.innerHTML = "정보 업데이트 시각: " + `<strong>` + data.statUpdatetime[0] + `</strong>`;
+
+									});
+								}
+
+								function details(chargeTp, cpTp, cpStat){
+									for (var step=0; step<12; step++) { // 12 대신 배열 길이 넣어야함......
+
+										var listArea = document.getElementById("chargeList");
+										var newList = document.createElement('tr');
+
+										newList.innerHTML = `<td>` + nameChargeTp(chargeTp[step]) + `</td><td>` + nameCpTp(cpTp[step]) + `</td><td>` + nameCpStat(cpStat[step]) + `</td>`;
+					
+										listArea.appendChild(newList);
+									}
+								}
+
+								function nameChargeTp(chargeTp){ // chargeTp: 충전기타입(1:완속, 2: 급속) 
+									if(chargeTp == 1) {
+										return "완속"
+									}
+									return "급속"
+								}
+
+								function nameCpTp(cpTp){ // cpTp: 충전방식(1:B타입(5핀), 2: C타입(5핀), 3:BC타입(5핀),4: BC타입(7핀),5: DC차 데모, 6:AC 3상, 7: DC콤보,8: DC차데모+DC콤보. 9:DC차데모+AC3상, 10: DC차데모+DC콤보, AC3상)
+									if(cpTp == 1) return "B타입(5핀)"
+									else if(cpTp == 2) return "C타입(5핀)" 
+									else if(cpTp == 3)  return "BC타입(5핀)"
+									else if(cpTp == 4) return "BC타입(7핀)"
+									else if(cpTp == 5) return "DC차데모"
+									else if(cpTp == 6) return "AC3상"
+									else if(cpTp == 7) return "DC콤보"
+									else if(cpTp == 8) return "DC차데모+DC콤보"
+									else if(cpTp == 9) return "DC차데모+AC3상"
+									return "DC차데모+DC콤보, AC3상"
+								}
+
+								function nameCpStat(cpStat){ // cpStat: 충전기 상태( 0: 상태확인불가, 1: 충전가능, 2: 충전중, 3:고장/점검, 4:통신장애, 5:통신미연결,9:충전예약)
+									if(cpStat == 1) return "충전가능"
+									if(cpStat == 2) return "충전중"
+									if(cpStat == 3) return "고장/점검"
+									if(cpStat == 4) return "통신장애"
+									if(cpStat == 5) return "통신미연결"
+									if(cpStat == 9) return "충전예약"
+									return "상태확인불가"
+								}
+
+							</script>
+						</div>
+					</section>
+
+		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯.... ㅈㅂ -->
+		<script src="static/assets/js/jquery.min.js"></script> 
+		<script src="static/assets/js/jquery.scrolly.min.js"></script>
+		<script src="static/assets/js/browser.min.js"></script>
+		<script src="static/assets/js/breakpoints.min.js"></script>
+		<script src="static/assets/js/util.js"></script>
+		<script src="static/assets/js/main.js"></script>
+	</body>
+</html>

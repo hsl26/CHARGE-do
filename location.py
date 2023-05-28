@@ -10,21 +10,12 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/list')
-def list():
-    return render_template('list.html')
-
-@app.route('/fee')
-def fee():
-    return render_template('fee.html')
-
-@app.route('/map')
-def map():
-    return render_template('map.html')
+@app.route('/details')
+def details():
+    return render_template('details.html')
 
 @app.route('/charge')
 def charge():
-    # now = datetime.datetime.now()
     url = "https://api.odcloud.kr/api/EvInfoServiceV2/v1/getEvSearchList" 
     params = {} # dictionary 자료형
     params['serviceKey'] ="3RJiQ2qjq2JIZVrCFXK1dKOqOeQqjq21YEN/aO7D1o9wr4D/mcWuAPQQ57HV/VZMxZodnng1Su5jDJCcbVMtvg=="
@@ -109,7 +100,7 @@ def charge():
     final_list = list(map(list, zip(*mylist)))
     # print(final_list)
 
-    con = sqlite3.connect('CHARGE_do/chargedo.db', isolation_level=None)
+    con = sqlite3.connect('chargedo.db', isolation_level=None)
     cur = con.cursor()
 
     cur.execute("CREATE TABLE IF NOT EXISTS chargeDO(id INTEGER PRIMARY KEY, csId INTEGER, csNm TEXT, addr TEXT, lat REAL, longi REAL, cpId INTEGER, cpNm TEXT, chargeTp TEXT, cpTp TEXT, statUpdatetime TEXT, cpStat TEXT)")
@@ -128,9 +119,9 @@ def charge():
     
     # for item in rows:
         # print(item)
-
+    
     if rows:
-        return jsonify({'csId': csId, 'lat': lat, 'longi': longi}) # 값 있으면 해당 값 전달
+        return jsonify({'csId': csId, 'csNm': csNm, 'addr': addr, 'lat': lat, 'longi': longi, 'cpId': cpId, 'chargeTp': chargeTp, 'cpTp': cpTp, 'statUpdatetime': statUpdatetime, 'cpStat': cpStat}) # 값 있으면 해당 값 전달
     else:
         return jsonify({'csId': 3069,'lat': 37.60992959003136, 'longi': 126.99738378955175}) # 값 없으면 (37.60992959003136, 126.99738378955175) 전달
 
