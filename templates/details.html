@@ -33,7 +33,6 @@
 					<section id="first">
 						<div class="content"> 
 							<p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p>
-							<button onclick="getChargeData()">충전소 목록</button>
 							<div class="table-wrapper">
 								<table>
 									<thead>
@@ -52,7 +51,7 @@
 							<p id="cpStat"></p>
 
 							<script>
-								function getChargeData() {
+								window.onload = function () {
 
 									var name = document.getElementById("csNm");
 									var text = document.getElementById("cpStat");
