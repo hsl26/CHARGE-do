@@ -32,7 +32,7 @@
 				<!-- Section -->
 					<section id="first">
 						<div class="content"> 
-							<p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p>
+							<!-- <p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p> --> 
 							<div class="table-wrapper">
 								<table>
 									<thead>
@@ -78,11 +78,42 @@
 										var listArea = document.getElementById("chargeList");
 										var newList = document.createElement('tr');
 
-										newList.innerHTML = `<td>` + chargeTp[step] + `</td><td>` + cpTp[step] + `</td><td>` + cpStat[step] + `</td>`;
+										newList.innerHTML = `<td>` + nameChargeTp(chargeTp[step]) + `</td><td>` + nameCpTp(cpTp[step]) + `</td><td>` + nameCpStat(cpStat[step]) + `</td>`;
 					
 										listArea.appendChild(newList);
 									}
 								}
+
+								function nameChargeTp(chargeTp){ // chargeTp: 충전기타입(1:완속, 2: 급속) 
+									if(chargeTp == 1) {
+										return "완속"
+									}
+									return "급속"
+								}
+
+								function nameCpTp(cpTp){ // cpTp: 충전방식(1:B타입(5핀), 2: C타입(5핀), 3:BC타입(5핀),4: BC타입(7핀),5: DC차 데모, 6:AC 3상, 7: DC콤보,8: DC차데모+DC콤보. 9:DC차데모+AC3상, 10: DC차데모+DC콤보, AC3상)
+									if(cpTp == 1) return "B타입(5핀)"
+									else if(cpTp == 2) return "C타입(5핀)" 
+									else if(cpTp == 3)  return "BC타입(5핀)"
+									else if(cpTp == 4) return "BC타입(7핀)"
+									else if(cpTp == 5) return "DC차데모"
+									else if(cpTp == 6) return "AC3상"
+									else if(cpTp == 7) return "DC콤보"
+									else if(cpTp == 8) return "DC차데모+DC콤보"
+									else if(cpTp == 9) return "DC차데모+AC3상"
+									return "DC차데모+DC콤보, AC3상"
+								}
+
+								function nameCpStat(cpStat){ // cpStat: 충전기 상태( 0: 상태확인불가, 1: 충전가능, 2: 충전중, 3:고장/점검, 4:통신장애, 5:통신미연결,9:충전예약)
+									if(cpStat == 1) return "충전가능"
+									if(cpStat == 2) return "충전중"
+									if(cpStat == 3) return "고장/점검"
+									if(cpStat == 4) return "통신장애"
+									if(cpStat == 5) return "통신미연결"
+									if(cpStat == 9) return "충전예약"
+									return "상태확인불가"
+								}
+
 							</script>
 						</div>
 					</section>
