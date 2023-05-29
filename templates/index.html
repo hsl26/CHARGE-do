@@ -12,6 +12,14 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script type="text/javascript">   
+			$(document).ready( function() { 
+			$("#feeChart").load("static/fee.html");  // 원하는 파일 경로를 삽입하면 된다
+
+			});
+		</script>
 	</head>
 	<body class="is-preload">
 
@@ -172,13 +180,7 @@
 						<header>
 							<h2>충전 요금 살펴보기</h2> 
 						</header>
-						<div class="content"> <!-- 요금 차트 만들어놓은거 넣기 -->
-							<p><strong>Proin tempus feugiat</strong> sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore.</p>
-							<ul class="actions">
-								<li><a href="#" class="button primary large">Get Started</a></li>
-								<li><a href="#" class="button large">Learn More</a></li>
-							</ul>
-						</div>
+						<div class="content" id="feeChart"></div>
 					</section>
 
 				<!-- Elements -->  <!-- 이거는 템플릿인듯 상세정보페이지 만들 때 필요한거 있으면 가져다 쓰기 -->
