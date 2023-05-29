@@ -21,7 +21,7 @@
 					<section class="intro">
 						<header>
 							<h1 id='csNm'></h1> <!-- csNm: 충전소 명칭 -->
-							<p>A free responsive site template designed </p> <!-- addr: 충전소 주소(샘플 : 전라남도 나주시 전력로 55) -->
+							<p> <del>추후 주소 추가</del> </p> <!-- addr: 충전소 주소(샘플 : 전라남도 나주시 전력로 55) -->
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
@@ -51,36 +51,40 @@
 							<p id="cpStat"></p>
 
 							<script>
+								const urlParams = new URL(location.href).searchParams;
+								const ID = urlParams.get('csId');
+								console.log(ID);
+
 								window.onload = function () {
 
-									var name = document.getElementById("csNm");
 									var text = document.getElementById("cpStat");
 
 									$.getJSON('/charge', function(data) { // DB 데이터 불러오기
 										
-										// csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
-					
-										console.log("csNm: 충전소 명칭: ", data.csNm);
-										console.log("statUpdatetime: ", data.statUpdatetime);
+										// csId: 충전소 ID, csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
 
-										name.innerHTML = data.csNm[0];
-
-										details(data.chargeTp, data.cpTp, data.cpStat);
+										details(data.csId, data.csNm, data.chargeTp, data.cpTp, data.cpStat);
 
 										text.innerHTML = "정보 업데이트 시각: " + `<strong>` + data.statUpdatetime[0] + `</strong>`;
 
 									});
 								}
 
-								function details(chargeTp, cpTp, cpStat){
+								function details(csId, csNm, chargeTp, cpTp, cpStat){
 									for (var step=0; step<12; step++) { // 12 대신 배열 길이 넣어야함......
-
+										
+										var name = document.getElementById("csNm");
 										var listArea = document.getElementById("chargeList");
 										var newList = document.createElement('tr');
 
-										newList.innerHTML = `<td>` + nameChargeTp(chargeTp[step]) + `</td><td>` + nameCpTp(cpTp[step]) + `</td><td>` + nameCpStat(cpStat[step]) + `</td>`;
-					
-										listArea.appendChild(newList);
+										if(csId[step] == ID) {
+
+											name.innerHTML = csNm[step];
+
+											newList.innerHTML = `<td>` + nameChargeTp(chargeTp[step]) + `</td><td>` + nameCpTp(cpTp[step]) + `</td><td>` + nameCpStat(cpStat[step]) + `</td>`;
+						
+											listArea.appendChild(newList);
+										}
 									}
 								}
 
