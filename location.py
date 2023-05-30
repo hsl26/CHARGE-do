@@ -3,6 +3,21 @@ import json
 import requests
 import sqlite3
 # import datetime
+import requests, json
+
+def current_location():
+    here_req = requests.get("http://www.geoplugin.net/json.gp")
+
+    if (here_req.status_code != 200):
+        print("현재좌표를 불러올 수 없음")
+    else:
+        location = json.loads(here_req.text)
+        crd = {"lat": str(location["geoplugin_latitude"]), "lng": str(location["geoplugin_longitude"])}
+
+    return crd
+
+crd = current_location()
+print(crd)
 
 app = Flask(__name__)
 
@@ -14,6 +29,10 @@ def index():
 def details():
     return render_template('details.html')
 
+@app.route('/element')
+def element():
+    return render_template('element.html')
+
 @app.route('/charge')
 def charge():
     url = "https://api.odcloud.kr/api/EvInfoServiceV2/v1/getEvSearchList" 
@@ -22,8 +41,8 @@ def charge():
     params['page'] = 1   # (optional) default 1
     params['perPage'] = 12   # (optional) default 10
     params['returnType'] = 'JSON' 
-    params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
-    #params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동 861-1" 
+    # params['cond[addr::LIKE]'] = "라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
+    params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동" 
 
     res = requests.get(url, params=params)
     print(res.url) 
