@@ -35,11 +35,11 @@
 					</section>
 
 				<!-- Section -->
-					<section id="first"> <!-- 첫 번째 section -->
+					<section id="first">  
 						<header>
-							<h2>내 위치 확인하기</h2> <!-- 첫 번째 section 제목 -->
+							<h2>내 위치 확인하기</h2>  
 						</header>
-						<div class="content"> <!-- strong 태그는 볼드체. 현재 위치 보여주던지.. 아니면 바로 지도-->
+						<div class="content">  
 							<div id="map" style="width:device-width; height:500px;"></div>
 							<!-- <button onclick="getChargeData()">충전소 목록</button> -->
 							<script>
@@ -117,9 +117,9 @@
 					</section>
 
 				<!-- Section -->
-					<section> <!-- 두 번째 section -->
+					<section>  
 						<header>
-							<h2>내 주변 충전소</h2>  <!-- 두 번째 section 제목 -->
+							<h2>내 주변 충전소</h2>  
 						</header>
 						<div class="content">
 							<p>충전소를 누르면 <strong>상세정보 페이지</strong>로 이동합니다.</p>
@@ -144,8 +144,7 @@
 
 								function list(count, csNm, csId){
 									var existing = "";
-									console.log(count);
-									for (var step=0; step<count; step++) { // 12 대신 배열 길이 넣어야함......
+									for (var step=0; step<count; step++) { 
 
 										if (existing != csNm[step]) {
 											
@@ -184,7 +183,7 @@
 					</section>
 
 				<!-- Section -->
-					<section> <!-- 네 번째 section -->
+					<section>  
 						<header>
 							<h2>충전 요금 살펴보기</h2> 
 						</header>
@@ -192,9 +191,9 @@
 					</section>
 
 				<!-- Section -->
-					<section> <!-- 다섯 번째 section -->
+					<section>  
 						<header>
-							<h2>제작자</h2> <!-- 우리 정보 쓰면 좋을듯 -->
+							<h2>제작자</h2> 
 						</header>
 						<div class="content">
 							<table>
@@ -260,7 +259,7 @@
 
 			</div>
 
-		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯.... ㅈㅂ -->
+		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯 -->
 			<script src="static/assets/js/jquery.min.js"></script> 
 			<script src="static/assets/js/jquery.scrolly.min.js"></script>
 			<script src="static/assets/js/browser.min.js"></script>
