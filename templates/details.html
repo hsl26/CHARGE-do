@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Paradigm Shift by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<title>CHARGE_do</title>
@@ -21,7 +16,7 @@
 					<section class="intro">
 						<header>
 							<h1 id='csNm'></h1> <!-- csNm: 충전소 명칭 -->
-							<p> <del>추후 주소 추가</del> </p> <!-- addr: 충전소 주소(샘플 : 전라남도 나주시 전력로 55) -->
+							<!-- <p> <del>추후 주소 추가</del> </p> addr: 충전소 주소 -->
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
@@ -32,7 +27,6 @@
 				<!-- Section -->
 					<section id="first">
 						<div class="content"> 
-							<!-- <p><strong>Lorem ipsum dolor</strong> sit amet consectetur.</p> --> 
 							<div class="table-wrapper">
 								<table>
 									<thead>
@@ -63,15 +57,23 @@
 										
 										// csId: 충전소 ID, csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
 
-										details(data.csId, data.csNm, data.chargeTp, data.cpTp, data.cpStat);
+										var count = 0;
+										var temp = data.csNm[count];
+
+										while (temp) {
+											count++;
+											temp = data.csNm[count]
+										}
+
+										details(count, data.csId, data.csNm, data.chargeTp, data.cpTp, data.cpStat);
 
 										text.innerHTML = "정보 업데이트 시각: " + `<strong>` + data.statUpdatetime[0] + `</strong>`;
 
 									});
 								}
 
-								function details(csId, csNm, chargeTp, cpTp, cpStat){
-									for (var step=0; step<12; step++) { // 12 대신 배열 길이 넣어야함......
+								function details(count, csId, csNm, chargeTp, cpTp, cpStat){
+									for (var step=0; step<count; step++) { // 12 대신 배열 길이 넣어야함......
 										
 										var name = document.getElementById("csNm");
 										var listArea = document.getElementById("chargeList");
@@ -122,7 +124,7 @@
 						</div>
 					</section>
 
-		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯.... ㅈㅂ -->
+		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯 -->
 		<script src="static/assets/js/jquery.min.js"></script> 
 		<script src="static/assets/js/jquery.scrolly.min.js"></script>
 		<script src="static/assets/js/browser.min.js"></script>

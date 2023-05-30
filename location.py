@@ -5,19 +5,19 @@ import sqlite3
 # import datetime
 import requests, json
 
-def current_location():
-    here_req = requests.get("http://www.geoplugin.net/json.gp")
+# def current_location():
+#     here_req = requests.get("http://www.geoplugin.net/json.gp")
 
-    if (here_req.status_code != 200):
-        print("현재좌표를 불러올 수 없음")
-    else:
-        location = json.loads(here_req.text)
-        crd = {"lat": str(location["geoplugin_latitude"]), "lng": str(location["geoplugin_longitude"])}
+#     if (here_req.status_code != 200):
+#         print("현재좌표를 불러올 수 없음")
+#     else:
+#         location = json.loads(here_req.text)
+#         crd = {"lat": str(location["geoplugin_latitude"]), "lng": str(location["geoplugin_longitude"])}
 
-    return crd
+#     return crd
 
-crd = current_location()
-print(crd)
+# crd = current_location()
+# print(crd)
 
 app = Flask(__name__)
 
@@ -45,7 +45,7 @@ def charge():
     params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동" 
 
     res = requests.get(url, params=params)
-    print(res.url) 
+    # print(res.url) 
     # print(res.text)
 
     # jsonData = res.json()
