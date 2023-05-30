@@ -57,15 +57,23 @@
 										
 										// csId: 충전소 ID, csNm: 충전소 명칭, chargeTp: 충전기타입, cpTp: 충전방식, statUpdatetime, cpStat: 충전기 상태
 
-										details(data.csId, data.csNm, data.chargeTp, data.cpTp, data.cpStat);
+										var count = 0;
+										var temp = data.csNm[count];
+
+										while (temp) {
+											count++;
+											temp = data.csNm[count]
+										}
+
+										details(count, data.csId, data.csNm, data.chargeTp, data.cpTp, data.cpStat);
 
 										text.innerHTML = "정보 업데이트 시각: " + `<strong>` + data.statUpdatetime[0] + `</strong>`;
 
 									});
 								}
 
-								function details(csId, csNm, chargeTp, cpTp, cpStat){
-									for (var step=0; step<12; step++) { // 12 대신 배열 길이 넣어야함......
+								function details(count, csId, csNm, chargeTp, cpTp, cpStat){
+									for (var step=0; step<count; step++) { // 12 대신 배열 길이 넣어야함......
 										
 										var name = document.getElementById("csNm");
 										var listArea = document.getElementById("chargeList");
