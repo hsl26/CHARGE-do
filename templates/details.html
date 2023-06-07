@@ -8,6 +8,7 @@
 		<meta name="keywords" content="" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
@@ -21,11 +22,15 @@
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
 						</header>
+						
 					</section>
 					
 
 				<!-- Section -->
 					<section id="first">
+						<header>
+							<h2>충전기 리스트</h2> 
+						</header>
 						<div class="content"> 
 							<div class="table-wrapper">
 								<table>
@@ -122,6 +127,94 @@
 
 							</script>
 						</div>
+					</section>
+
+					<section>  
+						<header>
+							<h2>충전 요금</h2> 
+						</header>
+						<!-- <div class="content" id="feeChart"></div> -->
+						<div class="content">
+							<canvas class="chart" id="lowPressure"></canvas>
+							<script>
+								const ctl = document.getElementById('lowPressure');
+								const lowPressure = new Chart(ctl, {
+										type: 'bar',
+										data: {
+											labels: ['경부하', '중간부하', '최대부하'],
+											datasets: [
+												{
+													label: '여름철',
+													data: [84.3, 172.0, 259.2] ,
+												},
+												{
+													label: '봄·가을철',
+													data: [85.4, 97.2, 102.1],
+												},
+												{
+													label: '겨울철',
+													data: [107.4, 154.9, 217.5],
+												},
+											],
+										},
+										options: {
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: '저압 충전 요금, 기본 요금 2,390 원/kW'
+												}
+											},
+											animation: {
+												duration: 0, 
+											},
+										},
+									});
+							</script>
+							<canvas class="chart" id="highPressure"></canvas>
+							<script>
+								const cth = document.getElementById('highPressure');
+								const highPressure = new Chart(cth, {
+										type: 'bar',
+										data: {
+											labels: ['경부하', '중간부하', '최대부하'],
+											datasets: [
+												{
+													label: '여름철',
+													data: [79.2, 137.4, 190.4],
+												},
+												{
+													label: '봄·가을철',
+													data: [80.2, 91.0, 94.9],
+												},
+												{
+													label: '겨울철',
+													data: [96.9, 127.7, 165.5],
+												},
+											],
+										},
+										options: {
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: '고압 충전 요금, 기본 요금 2,390 원/kW'
+												}
+											},
+											animation: {
+												duration: 0, 
+											},
+										},
+									});
+							</script>
+						</div>
+						
 					</section>
 
 		<!-- Scripts --> <!-- 스크립트 추가할거면 여기에 추가. 괜히 오류 안나게 기존에 있던 6개는 안건들이는게 좋을듯 -->
