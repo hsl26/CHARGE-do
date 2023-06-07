@@ -8,13 +8,8 @@
 		<meta name="keywords" content="" />
 		<link rel="stylesheet" href="static/assets/css/main.css" />
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0f018c8371bbd1ffe436e3771d3be2c6"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script type="text/javascript">   
-			$(document).ready( function() { 
-				$("#feeChart").load("static/fee.html");  // 원하는 파일 경로를 삽입하면 된다
-			});
-		</script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	</head>
 	<body class="is-preload">
 
@@ -25,7 +20,6 @@
 					<section class="intro">
 						<header>
 							<h1>CHARGE do</h1> <!-- 제목 -->
-							<p>A free responsive site template designed by <a href="https://twitter.com/ajlkn">@ajlkn</a> / <a href="https://html5up.net">HTML5 UP</a></p> <!-- 제목 아래 부가 설명 -->
 							<ul class="actions">
 								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
 							</ul>
@@ -41,12 +35,11 @@
 						</header>
 						<div class="content">  
 							<div id="map" style="width:device-width; height:500px;"></div>
-							<!-- <button onclick="getChargeData()">충전소 목록</button> -->
 							<script>
 								var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 								mapOption = { 
 									center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-									level: 3 // 지도의 확대 레벨 
+									level: 5 // 지도의 확대 레벨 
 								}; 
 						
 								var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -90,28 +83,60 @@
 								function getChargeData(){
 									$.getJSON('/charge', function(data) { // DB 데이터 불러오기 , csId: 충전소 ID
 										var count = 0;
-										var temp = data.lat[count];
+										var temp = data.csNm[count];
 
 										while (temp) {
 											count++;
-											temp = data.lat[count]
+											temp = data.csNm[count]
 										}
 
-										marLoc(count, data.lat, data.longi);
+										marLoc(count, data.csNm, data.lat, data.longi);
 									});
 								}
 
-								function marLoc(count, lat, longi){
+								function marLoc(count, csNm, lat, longi){
+
 									for (var step=0; step<count; step++){ 
+
 									var locPosition = new kakao.maps.LatLng(lat[step], longi[step]);
-									var marker = new kakao.maps.Marker({  
-										map: map, 
-										position: locPosition
-									}); 
+									var imageSrc = 'https://www.valuatum.com/wp-content/uploads/sites/10/2020/07/quick-guide-icon-300x276.png', // 마커이미지의 주소입니다    
+										imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+										imageOption = {offset: new kakao.maps.Point(27, 69)};
 									
+									var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+										markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); 
+									
+									var marker = new kakao.maps.Marker({  
+										map: map,
+										position: locPosition, 
+										image: markerImage,
+										clickable: true
+									}); 
+
+									var iw_content='<div style="width: 250px; padding:5px;">' + csNm[step] + '</div>' ;
+									//var iw_content='<div style="width: 200px; padding:5px;">' + csNm[step] + '</div>' ;
+									//var iw_content='<div class="markerInfo" style="padding:5px;">'+'<br><small>'+csNm[step] +'</small></div>';
+									
+									var infowindow = new kakao.maps.InfoWindow({
+										content: iw_content, // 인포윈도우에 표시할 내용
+										removable : true
+										});
+										
+									
+									kakao.maps.event.addListener(marker, 'click', mouse_info(map, marker,infowindow));
+
 									}
-									map.setCenter(locPosition); 
+
+									function mouse_info(map, marker,infowindow) { //클릭하면 인포윈도우 띄움
+										return function() {
+											infowindow.open(map, marker);
+										};
+									}
+									
 								}
+
+								getChargeData();
+						
 							</script> 
 						</div>
 					</section>
@@ -185,9 +210,90 @@
 				<!-- Section -->
 					<section>  
 						<header>
-							<h2>충전 요금 살펴보기</h2> 
+							<h2>충전 요금</h2> 
 						</header>
-						<div class="content" id="feeChart"></div>
+						<!-- <div class="content" id="feeChart"></div> -->
+						<div class="content">
+							<canvas class="chart" id="lowPressure"></canvas>
+							<script>
+								const ctl = document.getElementById('lowPressure');
+								const lowPressure = new Chart(ctl, {
+										type: 'bar',
+										data: {
+											labels: ['경부하', '중간부하', '최대부하'],
+											datasets: [
+												{
+													label: '여름철',
+													data: [84.3, 172.0, 259.2] ,
+												},
+												{
+													label: '봄·가을철',
+													data: [85.4, 97.2, 102.1],
+												},
+												{
+													label: '겨울철',
+													data: [107.4, 154.9, 217.5],
+												},
+											],
+										},
+										options: {
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: '저압 충전 요금, 기본 요금 2,390 원/kW'
+												}
+											},
+											animation: {
+												duration: 0, 
+											},
+										},
+									});
+							</script>
+							<canvas class="chart" id="highPressure"></canvas>
+							<script>
+								const cth = document.getElementById('highPressure');
+								const highPressure = new Chart(cth, {
+										type: 'bar',
+										data: {
+											labels: ['경부하', '중간부하', '최대부하'],
+											datasets: [
+												{
+													label: '여름철',
+													data: [79.2, 137.4, 190.4],
+												},
+												{
+													label: '봄·가을철',
+													data: [80.2, 91.0, 94.9],
+												},
+												{
+													label: '겨울철',
+													data: [96.9, 127.7, 165.5],
+												},
+											],
+										},
+										options: {
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: '고압 충전 요금, 기본 요금 2,390 원/kW'
+												}
+											},
+											animation: {
+												duration: 0, 
+											},
+										},
+									});
+							</script>
+						</div>
+						
 					</section>
 
 				<!-- Section -->
@@ -218,7 +324,7 @@
 									<tr>
 										<td><span><img src="static/face.PNG" alt="face" style="width:100px; height:100px;  display:block; margin:auto;"/></span></td>
 										<td style="vertical-align:middle"> 이현수</td>
-										<td style="vertical-align:middle">hyounshu@kookmin.ac.kr</td>
+										<td style="vertical-align:middle">hs@kookmin.ac.kr</td>
 									</tr>
 								</tbody>
 								<tfoot>
@@ -255,7 +361,7 @@
 					</section>
 
 				<!-- Copyright -->
-					<div class="copyright">&copy; Untitled. All rights reserved. Design: <a href="https://html5up.net">HTML5 UP</a>.</div>
+				<!-- <div class="copyright">&copy; Untitled. All rights reserved. Design: <a href="https://html5up.net">HTML5 UP</a>.</div> -->
 
 			</div>
 
