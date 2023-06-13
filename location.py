@@ -23,7 +23,8 @@ def charge():
     params['perPage'] = 12   # (optional) default 10
     params['returnType'] = 'JSON' 
     # params['cond[addr::LIKE]'] = "전라남도 나주시 빛가람동 120" # default 전라남도 나주시 빛가람동 120
-    params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동" 
+    # params['cond[addr::LIKE]'] = "서울특별시 성북구 정릉동" 
+    params['cond[addr::LIKE]'] = "제주특별자치도 제주시" # default 전라남도 나주시 빛가람동 120
 
     res = requests.get(url, params=params)
     # print(res.url) 
@@ -127,4 +128,4 @@ def charge():
 
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=8001)
+    app.run(host='0.0.0.0', port=8001)

@@ -38,8 +38,8 @@
 							<script>
 								var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 								mapOption = { 
-									center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-									level: 5 // 지도의 확대 레벨 
+									center: new kakao.maps.LatLng(37.60992959003136, 126.99738378955175), // 지도의 중심좌표
+									level: 7 // 지도의 확대 레벨 
 								}; 
 						
 								var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
@@ -53,8 +53,8 @@
 										var lat = position.coords.latitude, // 위도
 											lon = position.coords.longitude; // 경도
 										
-										var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-				
+										// var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+										var locPosition = new kakao.maps.LatLng(33.50187503224532,  126.48534794864818); 
 										
 										// 마커와 인포윈도우를 표시합니다
 										displayMarker(locPosition);
@@ -63,7 +63,7 @@
 									
 								} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 									
-									var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
+									var locPosition = new kakao.maps.LatLng(37.60992959003136, 126.99738378955175);
 									displayMarker(locPosition);
 								}
 						
@@ -87,7 +87,7 @@
 
 										while (temp) {
 											count++;
-											temp = data.csNm[count]
+											temp = data.csNm[count];
 										}
 
 										marLoc(count, data.csNm, data.lat, data.longi);
@@ -99,8 +99,8 @@
 									for (var step=0; step<count; step++){ 
 
 									var locPosition = new kakao.maps.LatLng(lat[step], longi[step]);
-									var imageSrc = 'https://www.valuatum.com/wp-content/uploads/sites/10/2020/07/quick-guide-icon-300x276.png', // 마커이미지의 주소입니다    
-										imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+									var imageSrc = 'static/pngwing.com-3.png', // 마커이미지의 주소입니다    
+										imageSize = new kakao.maps.Size(32, 35), // 마커이미지의 크기입니다
 										imageOption = {offset: new kakao.maps.Point(27, 69)};
 									
 									var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
@@ -153,14 +153,14 @@
 							</ul>
 
 							<script>
-								window.onload = function () {
-									$.getJSON('/charge', function(data) { // DB 데이터 불러오기 , csId: 충전소 ID
+								window.onload = function () { // 페이지 onload시 바로 실행
+									$.getJSON('/charge', function(data) { // DB 데이터 불러오기 
 										var count = 0;
 										var temp = data.csNm[count];
 
-										while (temp) {
+										while (temp) {					// count: 총 충전기 대수
 											count++;
-											temp = data.csNm[count]
+											temp = data.csNm[count];
 										}
 
 										list(count, data.csNm, data.csId);
@@ -169,7 +169,7 @@
 
 								function list(count, csNm, csId){
 									var existing = "";
-									for (var step=0; step<count; step++) { 
+									for (var step=0; step<count; step++) {  
 
 										if (existing != csNm[step]) {
 											
@@ -186,7 +186,6 @@
 											console.log(id);
 
 											newList.innerHTML = `<a href='${makeURL(id)}'>` + csNm[step] + `</a>` ;
-											//newList.innerHTML = `<a onclick=locationHref(${id})>` + csNm[step] + `</a>` ;
 											listArea.appendChild(newList);
 										}
 										else {
@@ -198,11 +197,6 @@
 								function makeURL(csId){
 									return "/details?csId="+csId;
 								}
-
-								// function locationHref(csId){
-								// 	location.href="/details?csId="+csId;
-								// }
-
 							</script>
 						</div>
 					</section>
@@ -335,11 +329,11 @@
 							<ul class="items">
 								<li>
 									<h3>Email</h3>
-									<a href="#">CHARGEdo@untitled.ext</a>
+									<a href="#">CHARGEdo@kookmin.com</a>
 								</li>
 								<li>
 									<h3>Phone</h3>
-									<a href="#">(000) 000-0000</a>
+									<a href="#">(02) 123-4567</a>
 								</li>
 								<li>
 									<h3>주소</h3>
