@@ -53,12 +53,12 @@
 										var lat = position.coords.latitude, // 위도
 											lon = position.coords.longitude; // 경도
 										
-										// var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-										var locPosition = new kakao.maps.LatLng(33.50187503224532,  126.48534794864818); 
+										//var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+										 var locPosition = new kakao.maps.LatLng(33.50187503224532,  126.48534794864818); 
 										
 										// 마커와 인포윈도우를 표시합니다
 										displayMarker(locPosition);
-											
+									
 									});
 									
 								} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -113,7 +113,9 @@
 										clickable: true
 									}); 
 
-									var iw_content='<div style="width: 250px; padding:5px;">' + csNm[step] + '</div>' ;
+									//var iw_content='<div style="width: 250px; padding:5px;">' + csNm[step] + '</div>' ;
+									var iw_content='<div style="width: 250px; padding:5px;">' + csNm[step] + '<a href="https://map.kakao.com/link/to/' + csNm[step] + ',' + lat[step] + ',' + longi[step] + '" style="color:blue" target="_blank">길찾기</a></div>' ;
+									
 									//var iw_content='<div style="width: 200px; padding:5px;">' + csNm[step] + '</div>' ;
 									//var iw_content='<div class="markerInfo" style="padding:5px;">'+'<br><small>'+csNm[step] +'</small></div>';
 									
@@ -124,7 +126,7 @@
 										
 									
 									kakao.maps.event.addListener(marker, 'click', mouse_info(map, marker,infowindow));
-
+									
 									}
 
 									function mouse_info(map, marker,infowindow) { //클릭하면 인포윈도우 띄움
@@ -180,8 +182,6 @@
 											newList.setAttribute("class","icon solid fa-bolt");
 
 											var id = csId[step];
-
-											tag = "<a href='{{url_for('details', csId="id")}}'>";
 
 											console.log(id);
 

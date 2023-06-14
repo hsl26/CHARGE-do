@@ -52,7 +52,6 @@
 							<script>
 								const urlParams = new URL(location.href).searchParams;
 								const ID = urlParams.get('csId');
-								console.log(ID);
 
 								window.onload = function () {
 
@@ -78,7 +77,7 @@
 								}
 
 								function details(count, csId, csNm, chargeTp, cpTp, cpStat){
-									for (var step=0; step<count; step++) { // 12 대신 배열 길이 넣어야함......
+									for (var step=0; step<count; step++) { 
 										
 										var name = document.getElementById("csNm");
 										var listArea = document.getElementById("chargeList");
